@@ -1,0 +1,20 @@
+Name: Erik Van, Jose Luquin
+Board Host Name: ee180-12z.stanford.edu
+
+Description: 
+The first thing that we changed was the compiler flag to "-03"; this automatically implemented various
+optimizations at the compiler level. We tried other flags, which increased the FPS. However, "-03" increased it the most. 
+We then went into sobel_calc.cpp and implemented ARM Intrinsic 
+code to vectorize the grayscale and sobel calculations (including the X and Y convolutions). We tried different ways of vectorizing the matrices. After discussing with Jack, we determined the most practical and efficient way of vectorizing grayscale was to split it into a unint8x8x3 matrix to separate each RGB value. 
+Lastly,for the multi-threading portion, we had the grayscale and sobel calculations run on two threads (as
+oposed to the original 1); this effectively had the grayscaling and calculations split in half between two threds, speeding up the process. We decided to split the source matrix horizontally because the source code was hardcoded in terms of row (during the review session, Jack also mentioned splitting it by rows).   
+
+These techniques worked because vectorizing the calculations for grayscaling and sobel allows
+for multiples calculations to be done at the same time. Similarly, splitting the work for grayscaling
+and sobel calculations between two threads allows for the process to speed up. 
+
+Report: 
+FPS Original: 5
+FPS Flag Optimization: 20
+FPS ARM Intrinsic Optimization: 56
+FPS Multithreading Optimization: 77
